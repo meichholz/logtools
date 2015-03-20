@@ -1,0 +1,81 @@
+#
+# Some manpage.
+#
+
+=head1 NAME
+
+tailfd - monitor a log file
+
+=head1 SYNOPSIS
+
+B<tailfd> { I<options> } I<file> I<slave> 
+
+=head1 DESCRIPTION
+
+B<tailfd> watches a log file and transfers all changes to a slave
+pipe. The pipe can distribute these lines to other facilities or
+processors.
+
+The distribution is done on a line-by-line base. Lines are terminated
+with LF.
+
+The daemon can be shut down at any point by SIGTERM and restarted by
+SIGHUP. It logs to the I<syslog> on the DAEMON-Facility.
+
+=head1 OPTIONS
+
+=over 3
+
+=item B<-p> I<pid-file>
+
+Write PID to B<pid-file> instead of deriving the pid file name from
+the log file name by concatenating ".pid".
+
+=item B<-s> I<status-file>
+
+Read and write status to and from B<status-file> instead of deriving
+the pid file name from the log file name by concatenating ".status".
+
+=item B<-d> I<debugmask>
+
+Enable debugging messages. Debugging ist performed through syslog. The
+debugging mask is a bitvector. The meaning of the particular debugging
+flags I<DEBUG_xxxx> can be looked up at the source code.
+
+=item B<-f>
+
+Run in foreground and do not daemonize. This is especially useful with
+the debugging option B<-d> to see the messages on B<stderr>.
+
+=item B<-q>
+
+Run in quiet mode. Only errors and important messages are logged.
+
+=item B<-V>
+
+Tell the version number.
+
+=back
+
+=head1 EXAMPLE
+
+  tailfd -f /var/log/exim_mainlog teepee "/home/mrtg/bin/mrtg-exim" \
+			"anywatcher -"
+
+=head1 BUGS
+
+Tell me...
+
+=head1 VERSION
+
+$Id: tailfd.pod,v 1.1.1.1 2002/01/07 17:18:53 eichholz Exp $
+
+=head1 AUTHOR
+
+Marian Eichholz <marian.eichholz@freenet-ag.de>
+
+=head1 HISTORY
+
+See F<README.HISTORY>
+
+

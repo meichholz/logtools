@@ -1,0 +1,60 @@
+#
+# Some manpage.
+#
+
+=head1 NAME
+
+teepee - distribute standard input to processes
+
+=head1 SYNOPSIS
+
+... | B<teepee> { I<options> } "proc arg" "proc arg" ...> 
+
+=head1 DESCRIPTION
+
+B<teepee> listens on B<stdin> distributes all lines (terminated with
+LF) to child processes. The child processes are given in plain shell
+notation as arguments. One argument specifies one process with all
+it's options and own arguments. Thus, care must be taken with correct
+escaping.
+
+B<teepee> is a regular program, without any daemon magic. Nevertheless
+it is intended to be used with the I<tailfd> daemon as source.
+
+The program ist silent and does not output anything but errors (on
+B<stderr>).
+
+=head1 OPTIONS
+
+=over 3
+
+=item B<-d> I<debugmask>
+
+Enable debugging messages. Debugging ist performed through syslog. The
+debugging mask is a bitvector. The meaning of the particular debugging
+flags I<DEBUG_xxxx> can be looked up at the source code.
+
+=item B<-f>
+
+Run in foreground and do not daemonize. This is especially useful with
+the debugging option B<-d> to see the messages on B<stderr>.
+
+=item B<-V>
+
+Tell the version number.
+
+=back
+
+=head1 VERSION
+
+$Id: teepee.pod,v 1.3 2003/11/21 15:42:46 eichholz Exp $
+
+=head1 AUTHOR
+
+Marian Eichholz <marian.eichholz@freenet-ag.de>
+
+=head1 HISTORY
+
+See F<README.HISTORY>
+
+=cut

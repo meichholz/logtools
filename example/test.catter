@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "exec: \"$0\", parameters:"
+
+while [ -n "$*" ]; do
+  echo "'$1'"
+  shift
+done
+
+# cat on closed file descriptor brings the whole queue down
+cat >>tt

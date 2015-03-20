@@ -1,0 +1,23 @@
+2005-12-08
+	* Better line buffering. No overflows.
+	* No IO waste for stdio (real FD)
+	* Version 1.5
+
+2005-05-05
+	* Bugfix for output starting with random extra bytes(s)
+
+2003-11-21
+	* fixed the configure.in for autoconf 2.57
+	* declared to version 1.0.0
+
+2002-01-12
+	* man page generation works with pod2man
+
+2002-01-07
+	* still working on autotools
+	* compilation works. POD processing undone.
+
+The tailfd now starts only a simple shell process.
+If the shell dies, the daemon dies also.
+
+The daemon can be HUPed. It then kills it's child and starts it again.

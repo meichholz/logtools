@@ -1,33 +1,3 @@
-# logtools
-Tools to watch growing and cycling log files
-
-## Goal
-
-he logtools provide functionality missing in - say - tail and tee.
-The basic idea is to pipe the new lines in a logfile through analysing
-processing in real time.
-
-There are some issues with `tail -f` and `tee`:
-
-- When the system ist rebooted, the log analysis must continue from the last
-point. A status must be maintained.
-- when the log file is cycled and renamed, it does not grow any more. Thus,
-it must be reopened.
-- when the log file is truncated ("zeroed"), there must be "rewinding".
-- the output must be distributed to processes, not files.
-
-## Programs
-
-As an answer, there are three tools here:
-
-- `tailfd`, the "tail -f daemon"
-- `teepee`, the "tee for processes"
-- `tailfdx`, a daemon providing both functionality with a configuration file.
-
-I use tailfd and teepee in a large mail system every day. They are not perfect, but an answer.
-
-## License
-
 (MIT License)
 
 Copyright (c) 2013

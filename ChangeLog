@@ -1,0 +1,12 @@
+2005-05-05  Marian Eichholz <eichholz@computer.org>
+	* tailfd.c / teepee.c : fixed a bug in ReadBuffer.
+
+2003-11-21  Marian Eichholz <eichholz@computer.org>
+	* added some macros to configure.in for autoconf 2.57
+
+2002-01-12  Marian Eichholz <eichholz@computer.org>
+	* all the autotools stuff
+
+2002-01-07  Marian Eichholz <eichholz@computer.org>
+	* reorganisation of the whole tree
+

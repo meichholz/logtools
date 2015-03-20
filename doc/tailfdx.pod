@@ -1,0 +1,172 @@
+#
+# Some manpage.
+#
+
+=head1 NAME
+
+tailfd - multiplex log file changes
+
+=head1 SYNOPSIS
+
+B<tailfd> [B<-c> I<config-file> ] { I<options> }
+
+=head1 DESCRIPTION
+
+B<tailfd> watches a log file and distributes all changes to so called
+I<destinations> on a line-by-line basis. Normally it runs as a daemon
+and logs to the I<syslog> daemon.
+
+The notion I<destination> means files as well as processes, that are
+capable of receiving input through B<stdin>. These destinations are
+specified in the configuration file.
+
+The configuration file is normally read from F</etc/tailfd.conf> but
+can be read from elsewhere through the B<-c> option.
+
+The daemon can be shut down at any point by SIGTERM and restarted by
+SIGHUP. It uses the file F</var/Run/tailfd.status> as non volatile
+memory. You can specify another file name in the configuration file
+(see below).
+
+The Daemon logs to the I<syslog> on the DAEMON-Facility.
+
+It creates a normal PID file in F</var/run/tailfd.pid>
+unless otherwise stated in the configuration file.
+
+=head1 OPTIONS
+
+=over 3
+
+=item B<-c> I<config-file>
+
+Use the alternate I<config-file> instead of F</etc/tailfd.conf>.
+
+=item B<-d> I<debugmask>
+
+Enable debugging messages. Debugging ist performed through syslog. The
+debugging mask is a bitvector. The meaning of the particular debugging
+flags I<DEBUG_xxxx> can be looked up at the source code.
+
+=item B<-f>
+
+Run in foreground and do not daemonize. This is especially useful with
+the debugging option B<-d> to see the messages on B<stderr>.
+
+=item B<-q>
+
+Run in quiet mode. Only errors and important messages are logged.
+
+=item B<-r>
+
+Restart broken destinations. Normally, when a destination fails (disk
+full or broken pipe), the daemon marks it internally as unusuable and
+continues it's work without this specific destination. With the option
+B<-r> it tries to restart the destination (re-create the pipe, the
+file or whatever) and aborts, if this attempt fails. It's up to Your
+policy.
+
+=item B<-t> I<seconds>
+
+Allow the monitored file to be inaccessable for I<seconds> before the
+daemon aborts. Any external facility (loke a log cycler) has to
+respect this contraint. I<seconds> defaults to 5 seconds.
+
+=item B<-V>
+
+Tell other version number.
+
+=back
+
+=head1 CONFIGURATION FILE
+
+The configuration files is in the INI style and consists of
+I<SECTIONS> that in turn contain I<key> to I<value>
+-assignments. Currently only string type assignments are supported.
+
+There may be I<comments> in the UNIX style with lattices (#) in the
+first column.
+
+=head2 The DAEMON section
+
+In the DAEMON section global settings are specified.
+
+=over 4
+
+=item I<statusfile>
+
+The name of the nonvolatile memory of this particular instance,
+overriding the default.
+
+=item I<pidfile>
+
+The name of the PID file, overriding the default.
+
+=back
+
+The other sections specify so called I<destinations>.  A destination
+is the distribution end point for each line of the monitored
+file. They can be a plain file or a pipe process (when the I<command>
+key is present).
+
+=head2 Destinations
+
+=over 4
+
+=item I<stdout>
+
+The key specifies a file, that is open by the daemons. If there is no
+I<command> given, this file is the direct destination. Normally, this
+file is connected to the B<stdout> of the pipe. It may be omitted, if
+the pipe does not write to B<stdout> at all.
+
+The file is created and truncated per default. It can be appended as
+well, if the name is prefixed with a greater-than-sign, like in
+I<stdout=">mailer.log"> (see the example below.)
+
+=item I<args>
+
+The optional arguments for the command can be specified here. They are
+separated by whitespace. Thus, whitespace itself within the single
+arguments must be escaped with backslashes. Additionally, You can
+specify CTRL codes 0-25 (B<\a> - B<\z>) and every other character
+with the octal notation (B<\000> - B<\777>). Of course, the
+backslash itself must be escaped (B<\\>) just like the double quotes
+(B<\">).
+
+=back
+
+=head1 EXAMPLE
+
+ [DAEMON]
+ statusfile = "temp.status"
+    pidfile = "temp.pid"
+   workdir  = "/home/marian/src/tailfd"
+
+ [testlog1]
+ command = "logalyzer"
+ args="-c file\e with\e space -"
+ stdout=">temp.catout"
+ 
+ [testlog2]
+ command = "/usr/local/bin/mklogstat"
+ 
+ [FileBin]
+ stdout="temp.out"
+
+=head1 BUGS
+
+Tell me...
+
+=head1 VERSION
+
+$Id: tailfdx.pod,v 1.1.1.1 2002/01/07 17:18:53 eichholz Exp $
+
+=head1 AUTHOR
+
+Marian Eichholz <marian.eichholz@freenet-ag.de>
+
+=head1 HISTORY
+
+See F<README.HISTORY>
+
+=cut
