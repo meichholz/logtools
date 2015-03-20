@@ -26,6 +26,12 @@ As an answer, there are three tools here:
 
 I use tailfd and teepee in a large mail system every day. They are not perfect, but an answer.
 
+## Building
+
+Being a really old attempt at autoconf, we have no `configure.ac` yet. I'll add
+that later, promised, as there is no really special issue with that. Compile,
+link and be done :-)
+
 ## License
 
 (MIT License)
